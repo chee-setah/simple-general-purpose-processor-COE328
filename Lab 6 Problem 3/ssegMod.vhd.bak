@@ -1,0 +1,29 @@
+LIBRARY ieee ;
+USE ieee.std_logic_1164.all ;
+
+ENTITY ssegMod IS
+	PORT (bcd : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+			neg : IN STD_LOGIC;
+			leds, ledss : OUT STD_LOGIC_VECTOR(0 TO 6));
+	END ssegMod;
+
+ARCHITECTURE Behavior OF ssegMod IS
+	BEGIN
+	PROCESS (bcd, neg)
+
+BEGIN
+
+	CASE neg IS
+		WHEN '0' => ledss <= ("1111111"); --when neg = 0, do not display negative sign
+		WHEN '1' => ledss <= ("1111110"); --when neg = 1, display negative sign
+	END CASE;
+		
+		CASE bcd IS --abcdefg
+	WHEN "0000" =>leds <= ("0001001"); --N
+	WHEN "0001" =>leds <= ("1001100"); --Y
+	
+	WHEN OTHERS =>leds <= ("-------");
+		END CASE;
+		
+END PROCESS;
+END Behavior;
